@@ -1,0 +1,17 @@
+---
+  - name: deploy application container
+    hosts: dockerhost
+    sudo: true
+    tasks:
+    - name: Install docker-py as a workaround for Ansible issue
+      pip: name=docker-py version=1.2.3
+
+    - name: application container
+      docker:
+        name: volumizr-web-app
+        image: chrisjstevenson/volumizr-web-app
+        state: reloaded
+        pull: always
+        restart_policy: always
+        ports:
+          - "8080:8080"
